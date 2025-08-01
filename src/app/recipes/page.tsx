@@ -177,7 +177,9 @@ export default function Recipes() {
     const createdCollection = createCollection(newCollection);
     if (createdCollection) {
       setNewCollection({ name: "", description: "", color: "gray" });
-    setShowCreateCollectionModal(false);
+      setShowCreateCollectionModal(false);
+      // Reopen the Add to Collection modal after creating the collection
+      setShowCollectionModal(true);
       success('Collection Created', 'Your new collection has been created!');
     }
   };
