@@ -30,6 +30,14 @@ An intelligent recipe discovery app that turns your leftover ingredients into de
 - **Dark/Light Mode** - Adaptive theme support
 - **Accessibility** - WCAG compliant design
 
+## 🌐 Live Application
+
+**Production URL**: [https://ai-recipes-app.vercel.app](https://ai-recipes-app.vercel.app)
+
+- **Deployment Platform**: Vercel
+- **Auto-Deploy**: Enabled (deploys on every push to main branch)
+- **Status**: Production Ready ✅
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -83,6 +91,15 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.
 
+## 🚀 Deployment
+
+This project is automatically deployed to Vercel from the `main` branch. For detailed deployment information, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+
+### Quick Deployment Steps:
+1. Push changes to the `main` branch
+2. Vercel automatically builds and deploys
+3. Production URL updates automatically
+
 ## 🎯 How to Use
 
 ### 1. **Add Ingredients**
@@ -115,6 +132,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - **AI**: Google Gemini API
 - **Icons**: Lucide React
 - **PDF Generation**: jsPDF + html2canvas
+- **Deployment**: Vercel
 
 ## 📁 Project Structure
 
@@ -160,6 +178,11 @@ src/
 - Wait a minute and try again
 - The app includes fallback recipes
 
+### **Deployment Issues**
+- Check [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed troubleshooting
+- Verify environment variables are set in Vercel
+- Check Vercel build logs for errors
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -168,9 +191,15 @@ src/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 📚 Documentation
+
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Detailed deployment guide
+- **[GEMINI_SETUP.md](./GEMINI_SETUP.md)** - Gemini API setup instructions
+
 ## 🙏 Acknowledgments
 
 - [Google Gemini](https://ai.google.dev/) for AI capabilities
 - [Next.js](https://nextjs.org/) for the amazing framework
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - [Framer Motion](https://www.framer.com/motion/) for animations
+- [Vercel](https://vercel.com/) for seamless deployment

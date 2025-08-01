@@ -1,97 +1,146 @@
 # 🚀 Deployment Guide
 
-## Quick Deploy to Vercel
+## Current Deployment Setup
 
-### 1. Prepare Your Repository
-```bash
-# Initialize git if not already done
-git init
-git add .
-git commit -m "Initial commit: AI Recipe App"
+This project is deployed on **Vercel** with automatic production deployments from the `main` branch.
 
-# Push to GitHub
-git remote add origin https://github.com/yourusername/ai-recipes-app.git
-git push -u origin main
-```
+### 🌐 **Live Application**
+- **Production URL**: [https://ai-recipes-app.vercel.app](https://ai-recipes-app.vercel.app)
+- **Deployment Platform**: Vercel
+- **Branch**: `main` (production)
+- **Auto-Deploy**: Enabled (deploys on every push to main)
 
-### 2. Deploy to Vercel
-1. Go to [Vercel](https://vercel.com)
-2. Click "New Project"
-3. Import your GitHub repository
-4. Configure environment variables:
-   - Add `OPENAI_API_KEY` with your OpenAI API key
-5. Click "Deploy"
+## 🚀 Deployment Process
 
-### 3. Alternative: Deploy to Netlify
-1. Go to [Netlify](https://netlify.com)
-2. Click "New site from Git"
-3. Connect your GitHub repository
-4. Add environment variables in Site settings:
-   - Add `OPENAI_API_KEY` with your OpenAI API key
-5. Deploy!
+### **Automatic Deployment**
+1. **Push to Main Branch**
+   ```bash
+   git add .
+   git commit -m "Your commit message"
+   git push origin main
+   ```
 
-## Environment Variables
+2. **Vercel Auto-Deploy**
+   - Vercel automatically detects changes to the `main` branch
+   - Builds and deploys the application
+   - Updates the production URL
 
-### Required
-- `OPENAI_API_KEY`: Your OpenAI API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+### **Manual Deployment (if needed)**
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your project
+3. Go to "Deployments" tab
+4. Click "Redeploy" on the latest deployment
 
-### Optional
-- `ANTHROPIC_API_KEY`: If you want to use Anthropic instead of OpenAI
+## 🔧 Environment Variables
 
-## Local Development
+### **Required for Production**
+- `GEMINI_API_KEY`: Your Google Gemini API key
 
-1. **Install dependencies:**
+### **Setting Environment Variables in Vercel**
+1. Go to your Vercel project dashboard
+2. Navigate to "Settings" → "Environment Variables"
+3. Add the following:
+   - **Name**: `GEMINI_API_KEY`
+   - **Value**: Your actual Gemini API key
+   - **Environment**: Production (and Preview if needed)
+4. Click "Save"
+
+## 🛠️ Local Development
+
+### **Prerequisites**
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+### **Setup Steps**
+1. **Clone the repository:**
+   ```bash
+   git clone git clone git@github.com:Karthigesudilani/ai-recipes-app.git
+   cd ai-recipes-app
+   ```
+
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Create environment file:**
+3. **Create environment file:**
    ```bash
    # Create .env.local file
-   echo "OPENAI_API_KEY=your_api_key_here" > .env.local
+   echo "GEMINI_API_KEY=your_gemini_api_key_here" > .env.local
    ```
 
-3. **Run development server:**
+4. **Run development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open browser:**
+5. **Open browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
-### API Key Issues
-- Ensure your API key is valid and has sufficient credits
-- Check that the environment variable is set correctly
-- Restart the development server after adding environment variables
+### **Deployment Issues**
+- **Build Failures**: Check Vercel build logs for TypeScript errors
+- **Environment Variables**: Ensure `GEMINI_API_KEY` is set in Vercel
+- **API Errors**: Verify your Gemini API key is valid and has sufficient quota
 
-### Build Errors
-- Run `npm run build` to check for TypeScript errors
-- Ensure all dependencies are installed: `npm install`
+### **Local Development Issues**
+- **API Key Not Found**: Check your `.env.local` file
+- **Build Errors**: Run `npm run build` to check for errors
+- **Dependencies**: Run `npm install` to ensure all packages are installed
 
-### Deployment Issues
-- Check that environment variables are set in your deployment platform
-- Verify the API key has the correct permissions
-- Check deployment logs for error messages
+### **Common Solutions**
+- **Restart Development Server**: After adding environment variables
+- **Clear Cache**: Delete `.next` folder and restart
+- **Check API Quota**: Gemini has 60 requests/minute limit
 
-## Performance Tips
+## 📊 Monitoring
 
-### For Production
-- Consider using a CDN for static assets
-- Implement caching for API responses
-- Use environment-specific API keys
-- Monitor API usage and costs
+### **Vercel Analytics**
+- **Performance**: Monitor Core Web Vitals
+- **Usage**: Track API calls and response times
+- **Errors**: Check for runtime errors in production
 
-### For Development
-- Use `.env.local` for local environment variables
-- Keep API keys secure and never commit them
-- Test with different ingredient combinations
-- Monitor console for errors
+### **API Monitoring**
+- **Gemini API**: Monitor quota usage and response times
+- **Error Rates**: Track failed API calls
+- **Cost Management**: Monitor API usage to control costs
 
-## Security Notes
+## 🔒 Security Notes
 
-- Never commit API keys to version control
-- Use environment variables for sensitive data
-- Consider rate limiting for API calls
-- Monitor API usage to control costs 
+- **Environment Variables**: Never commit API keys to version control
+- **API Keys**: Use environment variables for all sensitive data
+- **Rate Limiting**: Consider implementing rate limiting for API calls
+- **Monitoring**: Regularly check for unauthorized API usage
+
+## 🚀 Performance Optimization
+
+### **Production Optimizations**
+- **Static Assets**: Optimized images and fonts
+- **Code Splitting**: Automatic code splitting by Next.js
+- **Caching**: Implemented caching strategies
+- **CDN**: Vercel's global CDN for fast delivery
+
+### **Development Tips**
+- **Hot Reload**: Fast development with Next.js hot reload
+- **TypeScript**: Catch errors early with type checking
+- **ESLint**: Maintain code quality with linting
+- **Prettier**: Consistent code formatting
+
+## 📝 Deployment Checklist
+
+Before pushing to main:
+- [ ] All tests pass locally
+- [ ] Environment variables are set in Vercel
+- [ ] No console errors in development
+- [ ] Build completes successfully (`npm run build`)
+- [ ] Code is properly formatted and linted
+
+## 🔄 Rollback Process
+
+If deployment fails:
+1. Go to Vercel dashboard
+2. Navigate to "Deployments"
+3. Find the last working deployment
+4. Click "Redeploy" on that deployment
+5. Investigate the issue in a new branch 
