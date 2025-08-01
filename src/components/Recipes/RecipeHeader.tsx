@@ -57,11 +57,11 @@ export default function RecipeHeader({
         </div>
       </div>
       
-      <div className="flex items-center justify-between mb-4">
+      <div className="md:flex items-center justify-between mb-4">
         <p className="text-gray-600 dark:text-gray-300">
           <span className="font-medium">{userIngredients.length} ingredients</span> • Ready to cook!
         </p>
-        <div className="flex items-center gap-2">
+        <div className="mt-4 md:mt-0 flex items-center gap-2">
           <Button
             onClick={onAddMoreIngredients}
             leftIcon={<Plus className="w-4 h-4" />}

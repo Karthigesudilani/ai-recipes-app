@@ -42,9 +42,19 @@ export const getRecipeImage = (ingredients: string[]) => {
 };
 
 export const getIngredientStatus = (ingredient: string, recipe: Recipe) => {
-  if (recipe.usedIngredients.includes(ingredient)) {
+  // Check if any used ingredient is contained in the current ingredient string
+  const isUsed = recipe.usedIngredients.some(usedIngredient => 
+    ingredient.toLowerCase().includes(usedIngredient.toLowerCase())
+  );
+  
+  // Check if any missing ingredient is contained in the current ingredient string
+  const isMissing = recipe.missingIngredients.some(missingIngredient => 
+    ingredient.toLowerCase().includes(missingIngredient.toLowerCase())
+  );
+  
+  if (isUsed) {
     return "used";
-  } else if (recipe.missingIngredients.includes(ingredient)) {
+  } else if (isMissing) {
     return "missing";
   }
   return "available";

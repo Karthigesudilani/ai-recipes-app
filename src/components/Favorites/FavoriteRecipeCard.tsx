@@ -173,10 +173,10 @@ export default function FavoriteRecipeCard({
           <Button 
             onClick={() => onDownloadPDF(recipe)}
             leftIcon={<Download className="w-4 h-4" />}
-            variant="primary"
+            variant="outline"
             size="sm"
             fullWidth
-            className="bg-green-500 hover:bg-green-600"
+            className="border-green-500 text-green-600 hover:bg-green-500 hover:text-white focus:ring-green-500"
           >
             Download PDF
           </Button>

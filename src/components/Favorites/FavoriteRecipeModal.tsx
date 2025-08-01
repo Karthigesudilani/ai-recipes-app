@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { X, Timer, Users, Award, Target, Download, Zap, ChefHat } from "lucide-react";
+import { X, Timer, Users, Award, Target, Download, Zap, ChefHat, Check, ShoppingCart } from "lucide-react";
 import { Recipe } from "../../types";
 import { getWasteScoreColor, getRecipeImage, downloadRecipeAsPDF, getIngredientStatus } from "../../utils";
 import { Modal, Button } from "../UI";
@@ -98,18 +98,46 @@ export default function FavoriteRecipeModal({
               <Zap className="w-5 h-5 text-orange-500" />
               Ingredients
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {selectedRecipe.ingredients.map((ingredient, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg"
-                >
-                  <div className="w-2 h-2 rounded-full bg-gray-400 flex-shrink-0" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
-                    {ingredient}
-                  </span>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 gap-2">
+              {selectedRecipe.ingredients.map((ingredient, index) => {
+                const status = getIngredientStatus(ingredient, selectedRecipe);
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center justify-between p-3 rounded-lg ${
+                      status === "used"
+                        ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
+                        : status === "missing"
+                        ? "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
+                        : "bg-gray-50 dark:bg-gray-700/30 text-gray-700 dark:text-gray-300"
+                    }`}
+                  >
+                    <span className="text-sm capitalize">
+                      {ingredient}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${
+                      status === "used"
+                        ? "bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200"
+                        : status === "missing"
+                        ? "bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                    }`}>
+                      {status === "used" && (
+                        <>
+                          <Check className="w-3 h-3" />
+                          have
+                        </>
+                      )}
+                      {status === "missing" && (
+                        <>
+                          <ShoppingCart className="w-3 h-3" />
+                          need to buy
+                        </>
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { NewCollection } from "../../types";
+import { Input, Textarea, Button } from "../UI";
 
 interface CreateCollectionModalProps {
   showCreateCollectionModal: boolean;
@@ -52,31 +53,27 @@ export default function CreateCollectionModal({
           </div>
 
           <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Collection Name
-              </label>
-              <input
-                type="text"
-                value={newCollection.name}
-                onChange={(e) => onUpdateCollection('name', e.target.value)}
-                placeholder="Enter collection name..."
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
+            <Input
+              label="Collection Name"
+              type="text"
+              value={newCollection.name}
+              onChange={(e) => onUpdateCollection('name', e.target.value)}
+              placeholder="Enter collection name..."
+              variant="default"
+              size="md"
+              fullWidth
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Description (Optional)
-              </label>
-              <textarea
-                value={newCollection.description}
-                onChange={(e) => onUpdateCollection('description', e.target.value)}
-                placeholder="Describe your collection..."
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
+            <Textarea
+              label="Description (Optional)"
+              value={newCollection.description}
+              onChange={(e) => onUpdateCollection('description', e.target.value)}
+              placeholder="Describe your collection..."
+              rows={3}
+              variant="default"
+              size="md"
+              fullWidth
+            />
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -98,20 +95,24 @@ export default function CreateCollectionModal({
             </div>
           </div>
 
-          <div className="flex gap-3 mt-6">
-            <button
-              onClick={onCreateCollection}
-              disabled={!newCollection.name.trim()}
-              className="flex-1 px-4 py-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
-            >
-              Create Collection
-            </button>
-            <button
+          <div className="flex justify-between gap-3 mt-6">
+          <Button
               onClick={onClose}
-              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors"
+              variant="secondary"
+              size="md"
             >
               Cancel
-            </button>
+            </Button>
+            <Button
+              onClick={onCreateCollection}
+              disabled={!newCollection.name.trim()}
+              variant="primary"
+              size="md"
+              fullWidth
+            >
+              Create Collection
+            </Button>
+            
           </div>
         </div>
       </motion.div>

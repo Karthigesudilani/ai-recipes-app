@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { 
-  ChefHat, Clock, Users, Star, Heart, Flame, Timer, 
-  Target, Download, Folder, RefreshCw, Check, Zap, Award 
+import {
+  ChefHat, Clock, Users, Star, Heart, Flame, Timer,
+  Target, Download, Folder, RefreshCw, Check, Zap, Award, ShoppingCart
 } from "lucide-react";
 import { Recipe } from "../../types";
 import { getRecipeImage, getIngredientStatus, getWasteScoreColor } from "../../utils";
@@ -41,13 +41,13 @@ export default function RecipeCard({
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -50, scale: 0.9 }}
-      transition={{ 
-        duration: 0.5, 
+      transition={{
+        duration: 0.5,
         delay: index * 0.1,
         type: "spring",
         stiffness: 100
       }}
-      whileHover={{ 
+      whileHover={{
         y: -10,
         scale: 1.02,
         transition: { duration: 0.2 }
@@ -57,7 +57,7 @@ export default function RecipeCard({
       {/* Recipe Header */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/10 dark:to-red-900/10 relative">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-red-500"></div>
-        
+
         {/* Recipe Image */}
         <div className="relative h-32 mb-3 rounded-lg overflow-hidden">
           <Image
@@ -68,11 +68,10 @@ export default function RecipeCard({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
           <div className="absolute top-2 right-2">
-            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm ${
-              recipe.difficulty === 'Easy' ? 'text-green-800' :
-              recipe.difficulty === 'Medium' ? 'text-yellow-800' :
-              'text-red-800'
-            }`}>
+            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm ${recipe.difficulty === 'Easy' ? 'text-green-800' :
+                recipe.difficulty === 'Medium' ? 'text-yellow-800' :
+                  'text-red-800'
+              }`}>
               <Flame className="w-3 h-3" />
               {recipe.difficulty}
             </div>
@@ -95,11 +94,10 @@ export default function RecipeCard({
                 e.stopPropagation();
                 toggleFavorite(recipe);
               }}
-              className={`p-1.5 rounded-full transition-all duration-200 hover:scale-110 ${
-                isFavorite(recipe.id)
+              className={`p-1.5 rounded-full transition-all duration-200 hover:scale-110 ${isFavorite(recipe.id)
                   ? 'text-red-500 hover:text-red-600 bg-red-50 dark:bg-red-900/20'
                   : 'text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'
-              }`}
+                }`}
             >
               <Heart className={`w-4 h-4 ${isFavorite(recipe.id) ? 'fill-current' : ''}`} />
             </button>
@@ -135,35 +133,36 @@ export default function RecipeCard({
             return (
               <div
                 key={index}
-                className={`flex items-center gap-2 text-sm p-2 rounded-lg transition-colors ${
-                  status === "used"
+                className={`flex items-center justify-between p-2 rounded-lg ${status === "used"
                     ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
                     : status === "missing"
-                    ? "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
-                    : "bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300"
-                }`}
-              >
-                <div
-                  className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                    status === "used"
-                      ? "bg-green-500"
-                      : status === "missing"
-                      ? "bg-red-500"
-                      : "bg-gray-400"
+                      ? "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
+                      : "bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300"
                   }`}
-                />
-                <span className="capitalize flex-1 text-xs">{ingredient}</span>
-                {status === "used" && (
-                  <span className="text-xs bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                    <Check className="w-3 h-3" />
-                    Have
-                  </span>
-                )}
-                {status === "missing" && showMissingIngredients && (
-                  <span className="text-xs bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 px-2 py-0.5 rounded-full font-medium">
-                    Need
-                  </span>
-                )}
+              >
+                <span className="text-xs capitalize">
+                  {ingredient}
+                </span>
+                {showMissingIngredients && (
+                  <span className={`text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${status === "used"
+                      ? "bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200"
+                      : status === "missing"
+                        ? "bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                    }`}>
+                    {status === "used" && (
+                      <>
+                        <Check className="w-3 h-3" />
+                        have
+                      </>
+                    )}
+                    {status === "missing" && (
+                      <>
+                        <ShoppingCart className="w-3 h-3" />
+                        need to buy
+                      </>
+                    )}
+                  </span>)}
               </div>
             );
           })}
@@ -196,10 +195,58 @@ export default function RecipeCard({
             </div>
           )}
         </ol>
-        
-        {/* Action Buttons */}
-        <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/10 dark:to-red-900/10 border-t border-gray-200 dark:border-gray-700 space-y-2">
-          <Button 
+
+        {/* Floating Action Buttons */}
+        <div className="relative p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/10 dark:to-red-900/10 border-t border-gray-200 dark:border-gray-700">
+          {/* Quick Action Icons */}
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <button
+              onClick={() => onStartCooking(recipe)}
+              className="group relative p-3 bg-emerald-500 hover:bg-emerald-600 rounded-full text-white transition-all duration-200 hover:scale-110 shadow-lg hover:shadow-xl"
+              title="Start Cooking"
+            >
+              <Timer className="w-4 h-4" />
+              <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Start Cooking
+              </span>
+            </button>
+
+            <button
+              onClick={() => onAddToCollection(recipe)}
+              className="group relative p-3 bg-indigo-500 hover:bg-indigo-600 rounded-full text-white transition-all duration-200 hover:scale-110 shadow-lg hover:shadow-xl"
+              title="Add to Collection"
+            >
+              <Folder className="w-4 h-4" />
+              <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Add to Collection
+              </span>
+            </button>
+
+            <button
+              onClick={() => onSubstitutionEnhancement(recipe)}
+              className="group relative p-3 bg-amber-500 hover:bg-amber-600 rounded-full text-white transition-all duration-200 hover:scale-110 shadow-lg hover:shadow-xl"
+              title="Substitutions"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Substitutions
+              </span>
+            </button>
+
+            <button
+              onClick={() => onNutritionEnhancement(recipe)}
+              className="group relative p-3 bg-rose-500 hover:bg-rose-600 rounded-full text-white transition-all duration-200 hover:scale-110 shadow-lg hover:shadow-xl"
+              title="Nutrition"
+            >
+              <Target className="w-4 h-4" />
+              <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                Nutrition
+              </span>
+            </button>
+          </div>
+
+          {/* Main Action Button */}
+          <Button
             onClick={() => onViewFullRecipe(recipe)}
             leftIcon={<ChefHat className="w-4 h-4" />}
             variant="primary"
@@ -208,47 +255,6 @@ export default function RecipeCard({
           >
             View Full Recipe
           </Button>
-          <div className="grid grid-cols-2 gap-2 mb-2">
-            <Button
-              onClick={() => onStartCooking(recipe)}
-              leftIcon={<Timer className="w-3 h-3" />}
-              variant="primary"
-              size="sm"
-              className="bg-green-500 hover:bg-green-600"
-            >
-              Start Cooking
-            </Button>
-            <Button
-              onClick={() => onAddToCollection(recipe)}
-              leftIcon={<Folder className="w-3 h-3" />}
-              variant="secondary"
-              size="sm"
-            >
-              Add to Collection
-            </Button>
-          </div>
-          
-          {/* AI Enhancement Buttons */}
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              onClick={() => onSubstitutionEnhancement(recipe)}
-              leftIcon={<RefreshCw className="w-3 h-3" />}
-              variant="primary"
-              size="sm"
-              className="bg-blue-500 hover:bg-blue-600"
-            >
-              Substitutions
-            </Button>
-            <Button
-              onClick={() => onNutritionEnhancement(recipe)}
-              leftIcon={<Target className="w-3 h-3" />}
-              variant="primary"
-              size="sm"
-              className="bg-purple-500 hover:bg-purple-600"
-            >
-              Nutrition
-            </Button>
-          </div>
         </div>
       </div>
     </motion.div>

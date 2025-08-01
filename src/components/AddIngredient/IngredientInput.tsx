@@ -120,7 +120,7 @@ export default function IngredientInput({
           Enter the Ingredients
         </label>
         <div className="flex flex-col sm:flex-row">
-          <div className="flex-1 relative me-4">
+          <div className="flex-1 relative me-4 mb-4 md:mb-0">
             <Input
               ref={inputRef}
               type="text"

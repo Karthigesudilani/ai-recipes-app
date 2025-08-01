@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChefHat, Plus, Loader2 } from "lucide-react";
+import { ChefHat, Plus, Loader2, Eye, EyeOff } from "lucide-react";
 import Header from "../../components/Header";
 import {
   RecipeCard,
@@ -287,18 +287,50 @@ export default function Recipes() {
         {/* Recipes Grid */}
         {!isLoading && filteredRecipes.length > 0 && (
           <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="md:flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
                 {filteredRecipes.length} Recipe{filteredRecipes.length !== 1 ? 's' : ''} Found
               </h2>
-              <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showMissingIngredients}
-                  onChange={(e) => setShowMissingIngredients(e.target.checked)}
-                  className="rounded"
-                />
-                Show missing ingredients
+              <label className="mt-4 md:mt-0 flex items-center gap-4 text-sm cursor-pointer group">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={showMissingIngredients}
+                    onChange={(e) => setShowMissingIngredients(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div className={`w-14 h-6 rounded-full transition-all duration-300 ease-in-out shadow-lg ${
+                    showMissingIngredients 
+                      ? 'bg-gradient-to-r from-orange-500 to-red-500 shadow-orange-500/25' 
+                      : 'bg-gray-200 dark:bg-gray-600 shadow-gray-400/25'
+                  }`}>
+                    <div className={`w-6 h-6 bg-white rounded-full shadow-lg transform transition-all duration-300 ease-in-out flex items-center justify-center ${
+                      showMissingIngredients ? 'translate-x-7' : 'translate-x-0.5'
+                    }`}>
+                      {showMissingIngredients ? (
+                        <Eye className="w-3 h-3 text-orange-500" />
+                      ) : (
+                        <EyeOff className="w-3 h-3 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`font-semibold transition-colors duration-200 ${
+                    showMissingIngredients 
+                      ? 'text-orange-600 dark:text-orange-400' 
+                      : 'text-gray-600 dark:text-gray-400'
+                  }`}>
+                    Show missing ingredients
+                  </span>
+                  <div className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                    showMissingIngredients 
+                      ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300' 
+                      : 'bg-gray-100 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400'
+                  }`}>
+                    {showMissingIngredients ? 'ON' : 'OFF'}
+                  </div>
+                </div>
               </label>
             </div>
 
