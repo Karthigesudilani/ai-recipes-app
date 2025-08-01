@@ -39,7 +39,7 @@ An intelligent recipe discovery app that turns your leftover ingredients into de
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone git@github.com:Karthigesudilani/ai-recipes-app.git
 cd ai-recipes-app
 ```
 

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Plus, RefreshCw, Search } from "lucide-react";
+import { Input, Button } from "../UI";
 
 interface RecipeHeaderProps {
   userIngredients: string[];
@@ -61,21 +62,23 @@ export default function RecipeHeader({
           <span className="font-medium">{userIngredients.length} ingredients</span> • Ready to cook!
         </p>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={onAddMoreIngredients}
-            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+            leftIcon={<Plus className="w-4 h-4" />}
+            variant="primary"
+            size="sm"
           >
-            <Plus className="w-4 h-4" />
             Add More Ingredients
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onRegenerateRecipes}
             disabled={isLoading}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            leftIcon={<RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />}
+            variant="secondary"
+            size="sm"
           >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
             Regenerate
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -85,16 +88,15 @@ export default function RecipeHeader({
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search recipes by name or ingredients..."
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
-          />
-        </div>
+        <Input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search recipes by name or ingredients..."
+          leftIcon={<Search className="w-5 h-5" />}
+          fullWidth
+          size="lg"
+        />
       </motion.div>
     </div>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { X, Timer, Users, Award, Target, Download, Zap, ChefHat } from "lucide-react";
 import { Recipe } from "../../types";
 import { getWasteScoreColor, getRecipeImage, downloadRecipeAsPDF, getIngredientStatus } from "../../utils";
+import { Modal, Button } from "../UI";
 
 interface FavoriteRecipeModalProps {
   showFullRecipe: boolean;
@@ -42,12 +43,14 @@ export default function FavoriteRecipeModal({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <div className="absolute top-4 right-4">
-            <button
+            <Button
               onClick={onClose}
-              className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              variant="ghost"
+              size="sm"
+              className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30"
             >
               <X className="w-5 h-5" />
-            </button>
+            </Button>
           </div>
           <div className="absolute bottom-4 left-4 text-white">
             <h2 className="text-2xl font-bold mb-2">{selectedRecipe.title}</h2>
@@ -78,13 +81,15 @@ export default function FavoriteRecipeModal({
                 {Math.round(selectedRecipe.wasteScore * 100)}% Ingredient Efficiency
               </span>
             </div>
-            <button
+            <Button
               onClick={() => downloadRecipeAsPDF(selectedRecipe, getIngredientStatus)}
-              className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors text-sm"
+              leftIcon={<Download className="w-4 h-4" />}
+              variant="primary"
+              size="sm"
+              className="bg-green-500 hover:bg-green-600"
             >
-              <Download className="w-4 h-4" />
               Download PDF
-            </button>
+            </Button>
           </div>
 
           {/* Ingredients */}

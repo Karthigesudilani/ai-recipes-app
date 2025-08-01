@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Folder, ChefHat, Clock, Edit, Trash2, X, Plus } from "lucide-react";
 import { Collection, Recipe } from "../../types";
 import { getRecipeImage } from "../../utils";
+import { Button } from "../UI";
 
 interface CollectionCardProps {
   collection: Collection;
@@ -84,18 +85,21 @@ export default function CollectionCard({
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button
+            <Button
               onClick={() => onEdit(collection)}
-              className="p-2 rounded-xl transition-all duration-200 hover:scale-110 text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+              variant="ghost"
+              size="sm"
             >
               <Edit className="w-5 h-5" />
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => onDelete(collection.id)}
-              className="p-2 rounded-xl transition-all duration-200 hover:scale-110 text-red-400 hover:text-red-600 hover:bg-red-50"
+              variant="ghost"
+              size="sm"
+              className="text-red-400 hover:text-red-600 hover:bg-red-50"
             >
               <Trash2 className="w-5 h-5" />
-            </button>
+            </Button>
           </div>
         </div>
 

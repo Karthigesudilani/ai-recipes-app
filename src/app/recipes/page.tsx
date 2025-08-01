@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChefHat, Plus, Loader2 } from "lucide-react";
 import Header from "../../components/Header";
@@ -14,7 +14,7 @@ import {
   AIEnhancementModal
 } from "../../components/Recipes";
 import { FavoriteRecipeModal } from "../../components/Favorites";
-import Toast, { Toast as ToastType } from "../../components/Toast";
+import { useToast, ToastContainer, Button } from "../../components/UI";
 import { Recipe, CookingMode, NewCollection, EnhancementType, AIEnhancementResult } from "../../types";
 import { useRecipes, useFavorites, useCollections } from "../../hooks";
 
@@ -42,23 +42,16 @@ export default function Recipes() {
   const [enhancementResult, setEnhancementResult] = useState<AIEnhancementResult | null>(null);
   const [isEnhancing, setIsEnhancing] = useState(false);
 
-  // Toast state
-  const [toast, setToast] = useState<ToastType | null>(null);
-
   // Custom hooks
   const { recipes, filteredRecipes, isLoading, error, generateRecipes, filterRecipes } = useRecipes();
+  const { toasts, success, error: showToastError, info, warning, removeToast } = useToast();
   const { toggleFavorite, isFavorite } = useFavorites();
   const { collections, createCollection, addRecipeToCollection } = useCollections();
+  
+  // Ref to prevent double API calls
+  const hasGeneratedRecipes = useRef(false);
 
-  const showToast = (type: 'success' | 'error' | 'info' | 'warning', title: string, message?: string) => {
-    setToast({
-      id: Date.now().toString(),
-      type,
-      title,
-      message,
-      duration: 4000
-    });
-  };
+
 
   useEffect(() => {
     // Load ingredients from localStorage
@@ -70,7 +63,8 @@ export default function Recipes() {
       setUserIngredients(ingredients);
       
       // Only generate recipes if we have ingredients and haven't already generated them
-      if (ingredients.length > 0 && recipes.length === 0) {
+      if (ingredients.length > 0 && recipes.length === 0 && !hasGeneratedRecipes.current) {
+        hasGeneratedRecipes.current = true;
         // Small delay to ensure state is set before generating recipes
         setTimeout(() => {
           handleGenerateRecipes();
@@ -80,7 +74,7 @@ export default function Recipes() {
     if (storedDiet) {
       setUserDiet(storedDiet);
     }
-  }, []);
+  }, []); // Empty dependency array to run only once
 
   // Update filtered recipes when recipes change
   useEffect(() => {
@@ -95,15 +89,15 @@ export default function Recipes() {
     const diet = storedDiet && storedDiet !== "none" ? storedDiet : "";
     
     if (ingredients.length === 0) {
-      showToast('warning', 'No Ingredients', 'Please add some ingredients first.');
+      warning('No Ingredients', 'Please add some ingredients first.');
       return;
     }
 
     try {
       await generateRecipes(ingredients, diet);
-      showToast('success', 'Recipes Generated', 'Your personalized recipes are ready!');
+      success('Recipes Generated', 'Your personalized recipes are ready!');
     } catch (error) {
-      showToast('error', 'Generation Failed', 'Failed to generate recipes. Please try again.');
+      showToastError('Generation Failed', 'Failed to generate recipes. Please try again.');
     }
   };
 
@@ -128,11 +122,11 @@ export default function Recipes() {
   const handleToggleFavorite = (recipe: Recipe) => {
     toggleFavorite(recipe);
     const isCurrentlyFavorite = isFavorite(recipe.id);
-    showToast(
-      isCurrentlyFavorite ? 'info' : 'success',
-      isCurrentlyFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-      isCurrentlyFavorite ? 'Recipe removed from your favorites.' : 'Recipe added to your favorites!'
-    );
+    if (isCurrentlyFavorite) {
+      info('Removed from Favorites', 'Recipe removed from your favorites.');
+    } else {
+      success('Added to Favorites', 'Recipe added to your favorites!');
+    }
   };
 
   const handleSearch = (query: string) => {
@@ -176,7 +170,7 @@ export default function Recipes() {
 
   const handleCreateCollection = () => {
     if (!newCollection.name.trim()) {
-      showToast('warning', 'Invalid Collection', 'Please enter a collection name.');
+      warning('Invalid Collection', 'Please enter a collection name.');
       return;
     }
 
@@ -184,14 +178,14 @@ export default function Recipes() {
     if (createdCollection) {
       setNewCollection({ name: "", description: "", color: "gray" });
     setShowCreateCollectionModal(false);
-      showToast('success', 'Collection Created', 'Your new collection has been created!');
+      success('Collection Created', 'Your new collection has been created!');
     }
   };
 
   const handleAddRecipeToCollection = (collectionId: string, recipe: Recipe) => {
     addRecipeToCollection(collectionId, recipe);
     setShowCollectionModal(false);
-    showToast('success', 'Recipe Added', 'Recipe has been added to the collection!');
+    success('Recipe Added', 'Recipe has been added to the collection!');
   };
 
   const handleAddToCollection = (recipe: Recipe) => {
@@ -229,7 +223,7 @@ export default function Recipes() {
       setEnhancementResult(result);
     } catch (error) {
       console.error('Error getting AI enhancement:', error);
-      showToast('error', 'Enhancement Failed', 'Failed to get AI enhancement. Please try again.');
+      showToastError('Enhancement Failed', 'Failed to get AI enhancement. Please try again.');
     } finally {
       setIsEnhancing(false);
     }
@@ -346,13 +340,14 @@ export default function Recipes() {
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Try adding more ingredients or different combinations.
             </p>
-            <button
+            <Button
               onClick={handleAddMoreIngredients}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
+              leftIcon={<Plus className="w-4 h-4" />}
+              variant="primary"
+              size="lg"
             >
-              <Plus className="w-4 h-4" />
               Add More Ingredients
-            </button>
+            </Button>
           </div>
         )}
 
@@ -395,8 +390,11 @@ export default function Recipes() {
           onClose={() => setShowAIEnhancements(false)}
         />
 
-        {/* Toast */}
-        <Toast toast={toast} onClose={() => setToast(null)} />
+        {/* Toast Container */}
+        <ToastContainer
+          toasts={toasts}
+          onClose={removeToast}
+        />
       </div>
     </div>
   );

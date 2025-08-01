@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Recipe } from "../../types";
 import { getRecipeImage, getIngredientStatus, getWasteScoreColor } from "../../utils";
+import { Button } from "../UI";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -198,46 +199,55 @@ export default function RecipeCard({
         
         {/* Action Buttons */}
         <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/10 dark:to-red-900/10 border-t border-gray-200 dark:border-gray-700 space-y-2">
-          <button 
+          <Button 
             onClick={() => onViewFullRecipe(recipe)}
-            className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors text-sm flex items-center justify-center gap-2"
+            leftIcon={<ChefHat className="w-4 h-4" />}
+            variant="primary"
+            size="sm"
+            fullWidth
           >
-            <ChefHat className="w-4 h-4" />
             View Full Recipe
-          </button>
+          </Button>
           <div className="grid grid-cols-2 gap-2 mb-2">
-            <button
+            <Button
               onClick={() => onStartCooking(recipe)}
-              className="py-2 px-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors text-xs flex items-center justify-center gap-1"
+              leftIcon={<Timer className="w-3 h-3" />}
+              variant="primary"
+              size="sm"
+              className="bg-green-500 hover:bg-green-600"
             >
-              <Timer className="w-3 h-3" />
               Start Cooking
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => onAddToCollection(recipe)}
-              className="py-2 px-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-medium transition-colors text-xs flex items-center justify-center gap-1"
+              leftIcon={<Folder className="w-3 h-3" />}
+              variant="secondary"
+              size="sm"
             >
-              <Folder className="w-3 h-3" />
               Add to Collection
-            </button>
+            </Button>
           </div>
           
           {/* AI Enhancement Buttons */}
           <div className="grid grid-cols-2 gap-2">
-            <button
+            <Button
               onClick={() => onSubstitutionEnhancement(recipe)}
-              className="py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors text-xs flex items-center justify-center gap-1"
+              leftIcon={<RefreshCw className="w-3 h-3" />}
+              variant="primary"
+              size="sm"
+              className="bg-blue-500 hover:bg-blue-600"
             >
-              <RefreshCw className="w-3 h-3" />
               Substitutions
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => onNutritionEnhancement(recipe)}
-              className="py-2 px-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors text-xs flex items-center justify-center gap-1"
+              leftIcon={<Target className="w-3 h-3" />}
+              variant="primary"
+              size="sm"
+              className="bg-purple-500 hover:bg-purple-600"
             >
-              <Target className="w-3 h-3" />
               Nutrition
-            </button>
+            </Button>
           </div>
         </div>
       </div>

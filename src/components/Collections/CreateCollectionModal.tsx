@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { X, Folder } from "lucide-react";
 import { Collection, NewCollection } from "../../types";
+import { Button, Input, Textarea, Modal } from "../UI";
 
 interface CreateCollectionModalProps {
   showModal: boolean;
@@ -36,53 +37,19 @@ export default function CreateCollectionModal({
   const isEditing = !!editingCollection;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
-      onClick={onClose}
+    <Modal
+      isOpen={showModal}
+      onClose={onClose}
+      title={isEditing ? 'Edit Collection' : 'Create New Collection'}
+      subtitle={isEditing ? 'Update your collection details' : 'Organize your recipes with a beautiful collection'}
+      size="lg"
+      showCloseButton={false}
+      className="bg-gradient-to-br from-orange-50 to-red-50"
     >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Modal Header */}
-        <div className="relative p-8 bg-gradient-to-br from-orange-50 to-red-50 border-b border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
-                <Folder className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  {isEditing ? 'Edit Collection' : 'Create New Collection'}
-                </h2>
-                <p className="text-gray-600 mt-1">
-                  {isEditing ? 'Update your collection details' : 'Organize your recipes with a beautiful collection'}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-2xl flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-white transition-all duration-200 shadow-sm"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Modal Content */}
-        <div className="p-8 space-y-6">
+      <div className="p-8 space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
-              Collection Name
-            </label>
-            <input
+            <Input
+              label="Collection Name"
               type="text"
               value={currentCollection.name}
               onChange={(e) => isEditing 
@@ -90,15 +57,14 @@ export default function CreateCollectionModal({
                 : onUpdateCollection('name', e.target.value)
               }
               placeholder="e.g., Quick Weeknight Meals"
-              className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder-gray-400 transition-all duration-200 text-lg"
+              fullWidth
+              size="lg"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
-              Description
-            </label>
-            <textarea
+            <Textarea
+              label="Description"
               value={currentCollection.description}
               onChange={(e) => isEditing 
                 ? onUpdateEditingCollection('description', e.target.value)
@@ -106,7 +72,8 @@ export default function CreateCollectionModal({
               }
               placeholder="Describe your collection..."
               rows={3}
-              className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder-gray-400 transition-all duration-200 resize-none"
+              fullWidth
+              size="lg"
             />
           </div>
 
@@ -132,22 +99,25 @@ export default function CreateCollectionModal({
             </div>
           </div>
 
-          <div className="flex gap-4 pt-6">
-            <button
+          <div className="flex justify-between gap-4 pt-6">
+            <Button
               onClick={onClose}
-              className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl font-semibold transition-all duration-200"
+              variant="secondary"
+              size="lg"
+              fullWidth
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onSubmit}
-              className="flex-1 px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+              variant="primary"
+              size="lg"
+              fullWidth
             >
               {isEditing ? 'Update Collection' : 'Create Collection'}
-            </button>
+            </Button>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
-  );
-} 
+      </Modal>
+    );
+  } 

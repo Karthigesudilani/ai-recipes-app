@@ -3,6 +3,7 @@ import Image from "next/image";
 import { X, ChefHat, Clock, Download, FileText } from "lucide-react";
 import { Collection, Recipe } from "../../types";
 import { getRecipeImage, downloadRecipeAsPDF, getIngredientStatus } from "../../utils";
+import { Modal, Button } from "../UI";
 
 interface CollectionDetailModalProps {
   showModal: boolean;
@@ -50,16 +51,18 @@ export default function CollectionDetailModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header - Fixed */}
-        <div className={`relative h-64 rounded-t-3xl overflow-hidden flex-shrink-0 bg-gradient-to-br ${getCollectionBorderColor(selectedCollection.color)}`}>
+        <div className={`relative h-44 rounded-t-3xl overflow-hidden flex-shrink-0 bg-gradient-to-br ${getCollectionBorderColor(selectedCollection.color)}`}>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
           <div className="absolute top-6 right-6">
-            <button
+            <Button
               onClick={onClose}
-              className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 shadow-lg"
+              variant="ghost"
+              size="sm"
+              className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl text-white hover:bg-white/30 shadow-lg"
             >
               <X className="w-6 h-6" />
-            </button>
+            </Button>
           </div>
           <div className="absolute bottom-6 left-6 text-white">
             <div className="flex items-center gap-4 mb-4">
@@ -112,24 +115,28 @@ export default function CollectionDetailModal({
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div className="absolute top-4 right-4 flex gap-2">
-                      <button
+                      <Button
                         onClick={(e) => {
                           e.stopPropagation();
                           downloadRecipeAsPDF(recipe, getIngredientStatus);
                         }}
-                        className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-orange-500 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        variant="ghost"
+                        size="sm"
+                        className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-xl text-white hover:bg-orange-500 opacity-0 group-hover:opacity-100"
                       >
                         <Download className="w-4 h-4" />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={(e) => {
                           e.stopPropagation();
                           onRemoveRecipe(selectedCollection.id, recipe.id);
                         }}
-                        className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-red-500 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        variant="ghost"
+                        size="sm"
+                        className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-xl text-white hover:bg-red-500 opacity-0 group-hover:opacity-100"
                       >
                         <X className="w-4 h-4" />
-                      </button>
+                      </Button>
                     </div>
                     <div className="absolute bottom-4 left-4">
                       <div className="flex items-center gap-2">

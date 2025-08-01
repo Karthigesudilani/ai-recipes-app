@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Plus, Clock, Star, TrendingUp } from "lucide-react";
-import { Input } from "../UI";
+import { Input, Button } from "../UI";
 
 interface IngredientInputProps {
   inputValue: string;
@@ -185,16 +185,16 @@ export default function IngredientInput({
               )}
             </AnimatePresence>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Button
             onClick={handleAddClick}
-            className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 text-sm shadow-lg hover:shadow-xl"
+            leftIcon={<Plus size={18} className="sm:w-5 sm:h-5" />}
+            variant="primary"
+            size="sm"
+            className="px-5 py-3 text-lg rounded-2xl border-2 border-transparent"
           >
-            <Plus size={18} className="sm:w-5 sm:h-5" />
             <span className="hidden sm:inline">Add</span>
             <span className="sm:hidden">+</span>
-          </motion.button>
+          </Button>
         </div>
         
         {/* Enhanced Help Text */}

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Recipe } from "../../types";
 import { getWasteScoreColor, getRecipeImage } from "../../utils";
+import { Button } from "../UI";
 
 interface FavoriteRecipeCardProps {
   recipe: Recipe;
@@ -84,12 +85,14 @@ export default function FavoriteRecipeCard({
                 {Math.round(recipe.wasteScore * 100)}%
               </span>
             </div>
-            <button
+            <Button
               onClick={() => onRemoveFromFavorites(recipe.id)}
-              className="p-1.5 rounded-full transition-all duration-200 hover:scale-110 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+              variant="ghost"
+              size="sm"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
             >
               <Trash2 className="w-4 h-4" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -158,20 +161,25 @@ export default function FavoriteRecipeCard({
         
         {/* Action Buttons */}
         <div className="p-4 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/10 dark:to-pink-900/10 border-t border-gray-200 dark:border-gray-700 space-y-2">
-          <button 
+          <Button 
             onClick={() => onViewFullRecipe(recipe)}
-            className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors text-sm flex items-center justify-center gap-2"
+            leftIcon={<ChefHat className="w-4 h-4" />}
+            variant="primary"
+            size="sm"
+            fullWidth
           >
-            <ChefHat className="w-4 h-4" />
             View Full Recipe
-          </button>
-          <button 
+          </Button>
+          <Button 
             onClick={() => onDownloadPDF(recipe)}
-            className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors text-sm flex items-center justify-center gap-2"
+            leftIcon={<Download className="w-4 h-4" />}
+            variant="primary"
+            size="sm"
+            fullWidth
+            className="bg-green-500 hover:bg-green-600"
           >
-            <Download className="w-4 h-4" />
             Download PDF
-          </button>
+          </Button>
         </div>
       </div>
     </motion.div>

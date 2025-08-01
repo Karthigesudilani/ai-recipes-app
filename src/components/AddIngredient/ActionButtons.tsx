@@ -3,6 +3,7 @@
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Button } from "../UI";
 
 interface ActionButtonsProps {
   ingredients: string[];
@@ -12,21 +13,19 @@ interface ActionButtonsProps {
 export default function ActionButtons({ ingredients, onFindRecipes }: ActionButtonsProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-      <motion.div 
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="flex-1"
-      >
-        <button
+      <div className="flex-1">
+        <Button
           onClick={onFindRecipes}
           disabled={ingredients.length === 0}
-          className="w-full px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-semibold text-base sm:text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          leftIcon={<Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />}
+          variant="primary"
+          size="lg"
+          fullWidth
         >
-          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="hidden sm:inline">Find Recipes ({ingredients.length} ingredients)</span>
           <span className="sm:hidden">Find Recipes ({ingredients.length})</span>
-        </button>
-      </motion.div>
+        </Button>
+      </div>
       <motion.div 
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}

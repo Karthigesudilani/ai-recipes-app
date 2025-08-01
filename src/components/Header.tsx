@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChefHat, ArrowLeft, Menu, X, BookOpen, Star, Search } from "lucide-react";
+import { ChefHat, ArrowLeft, Menu, X, BookOpen, Star, Search, Home } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { Button } from "./UI";
 
 interface HeaderProps {
   currentPage?: string;
@@ -24,6 +25,16 @@ export default function Header({
 
   const navigationItems = [
     {
+      href: "/",
+      label: "Home",
+      icon: Home,
+    },
+    {
+      href: "/add-ingredients",
+      label: "Find Recipes",
+      icon: Search,
+    },
+    {
       href: "/collections",
       label: "Collections",
       icon: BookOpen,
@@ -33,11 +44,6 @@ export default function Header({
       label: "Favorites",
       icon: Star,
       badge: favoritesCount > 0 ? favoritesCount : undefined
-    },
-    {
-      href: "/add-ingredients",
-      label: "Find Recipes",
-      icon: Search,
     }
   ];
 
@@ -59,14 +65,14 @@ export default function Header({
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-1">
             {navigationItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-4 py-2.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2 text-sm hover:text-orange-600 relative ${
+                  className={`px-3 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 text-sm hover:text-orange-600 relative ${
                     isActive 
                       ? 'text-orange-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-orange-600 after:rounded-full' 
                       : 'text-gray-700'
@@ -86,13 +92,14 @@ export default function Header({
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <button
+            <Button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2.5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all duration-200"
+              variant="ghost"
+              size="sm"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
         </div>
 

@@ -2,6 +2,7 @@
 
 import { X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "../UI";
 
 interface IngredientTagsProps {
   ingredients: string[];
@@ -24,12 +25,14 @@ export default function IngredientTags({
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
           Your Ingredients ({ingredients.length})
         </h3>
-        <button
+        <Button
           onClick={onClearAll}
-          className="text-xs sm:text-sm text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 self-start sm:self-center"
+          variant="ghost"
+          size="sm"
+          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 self-start sm:self-center"
         >
           Clear All
-        </button>
+        </Button>
       </div>
       <motion.div 
         layout
